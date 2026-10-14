@@ -1,12 +1,31 @@
 {
   "name": "yt-downloader",
-  "version": "1.0.0",
-  "description": "YouTube Downloader com Electron e yt-dlp",
+  "version": "1.0.1",
+  "description": "YouTube Downloader em Electron com yt-dlp",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.julymount.ytdownloader",
+    "productName": "YouTube Downloader",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "artifactName": "YouTube-Downloader-Setup.exe"
+    },
+    "extraResources": [
+      {
+        "from": "bin",
+        "to": "bin"
+      }
+    ]
   },
   "devDependencies": {
-    "electron": "^30.0.0"
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
   }
 }

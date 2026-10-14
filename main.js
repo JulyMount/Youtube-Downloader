@@ -10,8 +10,8 @@ function createWindow() {
     width: 620,
     height: 760,
     resizable: false,
-    frame: false, // Remove a moldura padrão do Windows para um aspeto orgânico
-    transparent: true, // Permite cantos arredondados na janela
+    frame: false, // Janela personalizada sem moldura padrão do Windows
+    transparent: true, // Permite cantos arredondados
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
@@ -27,12 +27,16 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// Controlos da Janela Personalizada
+// Controle da barra de título personalizada (Minimizar e Fechar)
 ipcMain.on('window-minimize', () => mainWindow.minimize());
 ipcMain.on('window-close', () => mainWindow.close());
 
-// Caminhos dos executáveis locais
-const binDir = path.join(__dirname, 'bin');
+// CAMINHOS DOS EXECUTÁVEIS (Funciona tanto em teste quanto no .exe instalado)
+const isPackaged = app.isPackaged;
+const binDir = isPackaged 
+  ? path.join(process.resourcesPath, 'bin') 
+  : path.join(__dirname, 'bin');
+
 const ytDlpPath = path.join(binDir, 'yt-dlp.exe');
 const ffmpegPath = path.join(binDir, 'ffmpeg.exe');
 const downloadFolder = path.join(os.homedir(), 'Downloads');
@@ -61,17 +65,40 @@ ipcMain.handle('get-video-info', async (event, url) => {
   });
 });
 
-// Handler 2: Iniciar Download
+// Handler 2: Iniciar Download (Compatível com After Effects / Premiere)
 ipcMain.on('start-download', (event, { url, formatId, type }) => {
   let args = [];
   const outputTemplate = path.join(downloadFolder, '%(title)s.%(ext)s');
 
   if (type === 'audio-simple') {
-    args = ['-x', '--audio-format', 'mp3', '--ffmpeg-location', ffmpegPath, '-o', outputTemplate, url];
+    args = [
+      '-x', 
+      '--audio-format', 'mp3', 
+      '--ffmpeg-location', ffmpegPath, 
+      '-o', outputTemplate, 
+      url
+    ];
   } else if (type === 'video-simple') {
-    args = ['-f', 'bv*+ba/b', '--merge-output-format', 'mp4', '--ffmpeg-location', ffmpegPath, '-o', outputTemplate, url];
+    args = [
+      // Prioriza H.264 (avc1) + AAC (mp4a) nativos do YouTube
+      '-f', 'bv*[vcodec^=avc1]+ba[acodec^=mp4a]/bv*+ba/b',
+      '--merge-output-format', 'mp4',
+      // Se for um codec não suportado (ex: VP9/AV1 em 4K), recodifica para H.264 + AAC
+      '--recode-video', 'mp4',
+      '--postprocessor-args', 'VideoConvertor:-c:v libx264 -c:a aac -pix_fmt yuv420p',
+      '--ffmpeg-location', ffmpegPath,
+      '-o', outputTemplate,
+      url
+    ];
   } else if (type === 'advanced') {
-    args = ['-f', formatId, '--ffmpeg-location', ffmpegPath, '-o', outputTemplate, url];
+    args = [
+      '-f', formatId,
+      '--recode-video', 'mp4',
+      '--postprocessor-args', 'VideoConvertor:-c:v libx264 -c:a aac -pix_fmt yuv420p',
+      '--ffmpeg-location', ffmpegPath,
+      '-o', outputTemplate,
+      url
+    ];
   }
 
   const downloader = spawn(ytDlpPath, args);
