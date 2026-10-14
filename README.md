@@ -18,7 +18,7 @@ An intuitive, fast, and modern desktop application to download YouTube videos an
 Para instalar ou atualizar o aplicativo diretamente sem precisar abrir o navegador, abra o **Prompt de Comando (CMD)** ou **PowerShell** e cole o comando abaixo:
 
 ```cmd
-curl -fL "[https://github.com/JulyMount/Youtube-Downloader/releases/latest/download/YouTube-Downloader-Setup.exe](https://github.com/JulyMount/Youtube-Downloader/releases/latest/download/YouTube-Downloader-Setup.exe)" -o "%TEMP%\yt-setup.exe" && "%TEMP%\yt-setup.exe"
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri '[https://github.com/JulyMount/Youtube-Downloader/releases/latest/download/YouTube-Downloader-Setup.exe](https://github.com/JulyMount/Youtube-Downloader/releases/latest/download/YouTube-Downloader-Setup.exe)' -OutFile '%TEMP%\yt-setup.exe'" && "%TEMP%\yt-setup.exe"
 ```
 
 > 💡 *O comando acima descarrega a versão mais recente diretamente das Releases do GitHub e inicia o instalador automaticamente.*
