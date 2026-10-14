@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Downloader</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-window">
+    <!-- BARRA DE TÍTULO PERSONALIZADA (DRAGGABLE) -->
+    <div class="custom-titlebar">
+      <div class="titlebar-drag">
+        <span class="app-icon">⚡</span>
+        <span class="app-title">YouTube Downloader</span>
+      </div>
+      <div class="titlebar-controls">
+        <button id="btn-minimize" class="control-btn">—</button>
+        <button id="btn-close" class="control-btn close-btn">✕</button>
+      </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="container">
+      <!-- ETAPA 1: INPUT DO LINK -->
+      <div id="step-url" class="step active">
+        <div class="input-group">
+          <input type="text" id="video-url" placeholder="Cole o link do vídeo aqui..." />
+          <button id="btn-fetch">BAIXAR</button>
+        </div>
+        <p id="url-error" class="error-msg"></p>
+      </div>
+
+      <!-- CARREGANDO -->
+      <div id="step-loading" class="step">
+        <div class="spinner"></div>
+        <p class="loading-text">Buscando informações do vídeo...</p>
+      </div>
+
+      <!-- ETAPA 2: OPÇÕES DE DOWNLOAD -->
+      <div id="step-options" class="step">
+        <div class="video-preview">
+          <img id="thumb" src="" alt="Thumbnail">
+          <h3 id="video-title">Título do Vídeo</h3>
+        </div>
+
+        <div class="simple-buttons">
+          <button id="btn-video" class="btn-primary">🎥 VÍDEO (MP4)</button>
+          <button id="btn-audio" class="btn-primary btn-secondary-gradient">🎵 ÁUDIO (MP3)</button>
+        </div>
+
+        <a id="btn-toggle-advanced" class="advanced-link">⚙️ Opções Avançadas</a>
+
+        <!-- SEÇÃO AVANÇADA -->
+        <div id="advanced-section" class="hidden">
+          <h4>Formatos Disponíveis</h4>
+          
+          <div class="format-list">
+            <h5>Áudio</h5>
+            <div id="audio-formats" class="format-group"></div>
+
+            <h5>Vídeo</h5>
+            <div id="video-formats" class="format-group"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ETAPA 3: PROGRESSO DO DOWNLOAD -->
+      <div id="step-progress" class="step">
+        <h3>A transferir...</h3>
+        <div class="progress-bar-container">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <p id="progress-text">0%</p>
+        <p id="progress-error-details" class="error-msg hidden"></p>
+        <button id="btn-reset" class="btn-primary hidden">Baixar Outro Vídeo</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
