@@ -18,10 +18,10 @@ An intuitive, fast, and modern desktop application to download YouTube videos an
 Para instalar ou atualizar o aplicativo diretamente sem precisar abrir o navegador, abra o **Prompt de Comando (CMD)** ou **PowerShell** e cole o comando abaixo:
 
 ```cmd
-powershell -Command "Invoke-WebRequest -Uri '[https://github.com/JulyMount/Youtube-Downloader/releases/latest/download/YouTube-Downloader-Setup.exe](https://github.com/JulyMount/Youtube-Downloader/releases/latest/download/YouTube-Downloader-Setup.exe)' -OutFile '%TEMP%\yt-setup.exe'" && "%TEMP%\yt-setup.exe"
+curl -L "[https://github.com/JulyMount/Youtube-Downloader/releases/latest/download/YouTube-Downloader-Setup.exe](https://github.com/JulyMount/Youtube-Downloader/releases/latest/download/YouTube-Downloader-Setup.exe)" -o "%TEMP%\yt-setup.exe" && "%TEMP%\yt-setup.exe"
 ```
 
-> 💡 *O comando acima baixa a versão mais recente diretamente do repositório e inicia o instalador automaticamente.*
+> 💡 *O comando acima descarrega a versão mais recente diretamente das Releases do GitHub e inicia o instalador automaticamente.*
 
 ---
 
@@ -41,7 +41,7 @@ Se preferir baixar o arquivo executável tradicionalmente:
 - 🎥 **Download de Vídeo:** Baixa em **MP4** na melhor resolução disponível.
 - 🎬 **Compatibilidade Profissional:** Vídeos convertidos nativamente em **H.264 / AAC**, totalmente compatíveis com **Adobe After Effects**, **Premiere Pro** e outros editores.
 - ⚙️ **Modo Avançado (Estilo Snaptube):** Escolha manualmente resoluções específicas (1080p, 720p, 480p, etc.).
-- 🎨 **Interface Modenda:** Design escuro orgânico em gradiente Ciano/Violeta com bordas arredondadas e barra de título personalizada.
+- 🎨 **Interface Moderna:** Design escuro orgânico em gradiente Ciano/Violeta com bordas arredondadas e barra de título personalizada.
 
 ---
 
